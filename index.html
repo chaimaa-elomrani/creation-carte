@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FUT Card Builder</title>
+  <style>
+    /* Popup Form Container */
+    .popup-form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    .popup-form-container.hidden {
+      display: none;
+    }
+
+    /* Popup Form Styling */
+    .popup-form {
+      background: #27272a;
+      border-radius: 15px;
+      padding: 20px;
+      width: 400px;
+      color: #d9d9d9;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #059b41;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #555;
+      background: #18181b;
+      color: #d9d9d9;
+    }
+
+    .add-button {
+      width: 100%;
+      padding: 10px;
+      background: #059b41;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .add-button:hover {
+      background: #046a32;
+    }
+
+    /* Card Display */
+    .card {
+      width: 12rem;
+      background: #27272a;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 15px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .card button {
+      background: #059b41;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background: #046a32;
+    }
+  </style>
+</head>
+<body>
+  <!-- Popup Form -->
+  <div class="popup-form-container hidden">
+    <div class="popup-form">
+      <h2 class="form-title">Add New Player</h2>
+      <form id="addPlayerForm">
+        <label for="playerName">Name:</label>
+        <input type="text" id="playerName" placeholder="Enter player name" required />
+
+        <label for="playerPosition">Position:</label>
+        <select id="playerPosition" required>
+          <option value="" disabled selected>Select a position</option>
+          <option value="LW">LW</option>
+          <option value="RW">RW</option>
+          <option value="GK">GK</option>
+        </select>
+
+        <label for="playerPhoto">Photo URL:</label>
+        <input type="file" id="playerPhoto" placeholder="Enter photo URL" required />
+
+        <label for="playerNationality">Nationality:</label>
+        <input type="text" id="playerNationality" placeholder="Enter nationality" required />
+
+        <label for="playerClub">Club:</label>
+        <input type="text" id="playerClub" placeholder="Enter club name" required />
+
+        <label for="playerFlag">Flag URL:</label>
+        <input type="url" id="playerFlag" placeholder="Enter flag URL" required />
+
+        <label for="playerRating">Rating:</label>
+        <input type="number" id="playerRating" min="0" max="99" placeholder="Enter rating" required />
+
+        <button type="submit" class="add-button">Add Player</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Card Display -->
+  <div id="cardContainer" class="card">
+    <h3>Player Card</h3>
+    <button id="showFormButton">Add New Player</button>
+  </div>
+
+  <script>
+    // Show Popup Form
+    document.getElementById("showFormButton").addEventListener("click", () => {
+      document.querySelector(".popup-form-container").classList.remove("hidden");
+    });
+
+    // Hide Popup Form when clicking outside of it
+    document.querySelector(".popup-form-container").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        e.currentTarget.classList.add("hidden");
+      }
+    });
+
+    // Handle Form Submission
+    document.getElementById("addPlayerForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Get form values
+      const playerName = document.getElementById("playerName").value;
+      const playerPosition = document.getElementById("playerPosition").value;
+      const playerPhoto = document.getElementById("playerPhoto").value;
+      const playerNationality = document.getElementById("playerNationality").value;
+      const playerClub = document.getElementById("playerClub").value;
+      const playerFlag = document.getElementById("playerFlag").value;
+      const playerRating = document.getElementById("playerRating").value;
+
+      // Create new card with player details
+      const cardContainer = document.getElementById("cardContainer");
+      cardContainer.innerHTML = `
+        <img src="${playerPhoto}" alt="Player Photo" style="width: 100%; border-radius: 10px;" />
+        <h3>${playerName} (${playerPosition})</h3>
+        <p>Club: ${playerClub}</p>
+        <p>Rating: ${playerRating}</p>
+      `;
+
+      // Hide popup form
+      document.querySelector(".popup-form-container").classList.add("hidden");
+    });
+  </script>
+</body>
+</html>
